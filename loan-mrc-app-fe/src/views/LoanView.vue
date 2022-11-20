@@ -19,9 +19,9 @@
                                     </div>
                                 </div>
                                 <ul>
-                                    <li v-for="item in orderGoodsName" v-bind:key="item">
+                                    <li v-for="(item, index) in orderGoodsName" :key="item">
                                         <div class="d-flex align-items-baseline mb-2">
-                                            <div class="goods me-2">{{ item }}:</div> <input type="text" v-model="type" class="form-control me-2" placeholder="no/type/merek"><div class="close-button" @click="deleteOrder(item)">x</div>
+                                            <div class="goods me-2">{{ item }}:</div> <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek"><div class="close-button" @click="deleteOrder(item, index)">x</div>
                                         </div>
                                     </li>
                                 </ul>
@@ -40,7 +40,6 @@
                             <div class="btn btn-primary" @click="orderConfirm()">oke</div>
                         </form>
                     </div>
-                    {{ type }}
                 </div>
                 <div class="main-content">
                     <div class="message-not-borrower" v-if="borrower == null">
@@ -82,6 +81,7 @@ import Swal from 'sweetalert2'
                 id_card: null,
                 borrower: null,
                 goods: [],
+                orderType: [],
                 type: [],
                 goods_choosen: [],
                 orderGoodsName: [],
@@ -116,12 +116,26 @@ import Swal from 'sweetalert2'
                     }
                 )
             },
-            orderGoods(id, index){
-                this.orderGoodsName.push(id)
+            orderGoods(goods_name, index){
+                this.orderGoodsName.push(goods_name)
                 this.goods[index].stock = this.goods[index].stock - 1
+
+                this.type = []
+                setTimeout(() => {
+                    let typeGoods = document.querySelectorAll('.typeGoods')
+                    
+                    this.orderType.push(typeGoods.length - 1)  
+
+                    this.orderType.forEach((item, indexOrder) => {
+                        this.type.push(typeGoods[indexOrder].value)
+                    })
+
+                }, 1);
+
             },
-            deleteOrder(item){
-                this.orderGoodsName.splice(this.orderGoodsName.indexOf(item), 1)
+            deleteOrder(item, indexOrder){
+                this.type.splice(indexOrder, 1)
+                this.orderGoodsName.splice(indexOrder, 1)
 
                 let index = 0
                 this.goods.forEach((itemGoods) => {
@@ -130,31 +144,81 @@ import Swal from 'sweetalert2'
                     }
                     index++
                 })
+
+
+                this.orderType.pop()
+            },
+            typeGoods(){
+                let typeGoods = document.querySelectorAll('.typeGoods')
+                this.type = []
+                this.orderType.forEach((item, indexOrder) => {
+                    this.type.push(typeGoods[indexOrder].value)
+                })
+                
             },
             orderConfirm(){
+                if (this.borrower != null) {
+                    for(let num = 0; num < this.orderGoodsName.length; num++){
+                        let array = []
 
+                        array.push(this.orderGoodsName[num])
+                        array.push(this.type[num])
 
-                axios.post(`http://127.0.0.1:8000/api/loan?token=${localStorage.getItem('token')}`, {
-                    'borrower': this.borrower,
-                    'necessity': this.necessity,
-                    'loan_duration': this.loan_duration,
-                    'goods_loans': this.goods_loans
-                }).then(
-                    response => {
-                        console.log(response)
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            timer: 1000,
-                            showConfirmButton: false
-                        })
+                        this.goods_loans.push(array)
                     }
-                ).catch(
-                    error => {
-                        console.log(error)
-                    }
-                )
+
+                    console.log(this.goods_loans)
+
+                    axios.post(`http://127.0.0.1:8000/api/loan?token=${localStorage.getItem('token')}`, {
+                        'borrower': this.borrower,
+                        'necessity': this.necessity,
+                        'loan_duration': this.loan_duration,
+                        'goods_loans': this.goods_loans
+                    }).then(
+                        response => {
+                            console.log(response)
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.data.message,
+                                timer: 2000,
+                                showConfirmButton: false
+                            })
+
+                            setTimeout(() => {
+                                location.reload()
+                            }, 2000)
+                        }
+                    ).catch(
+                        error => {
+                            console.log(error)
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'gagal',
+                                text: [ 
+                                    error.response.data.errors.necessity, 
+                                    ' '+ error.response.data.errors.loan_duration
+                                    ],
+                                timer: 2000,
+                                showConfirmButton: false
+                            })
+                        }
+                    )
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: 'silahkan scan id card terlebih dahulu',
+                        timer: 2000,
+                        showConfirmButton: false
+                    })
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
+                }
+                
                 
             }
         },
