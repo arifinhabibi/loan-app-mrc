@@ -2,14 +2,15 @@
     <div>
         <nav class="navbar navbar-expand-lg" style="background-color: rgb(77, 131, 207);">
             <div class="container">
-                <router-link class="navbar-brand text-white" to="/beranda">Loan App</router-link>
+                <router-link class="navbar-brand text-white" @click="refresh()" to="/peminjaman">Loan App</router-link>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <router-link class="nav-link text-white" to="/beranda">Beranda</router-link>
-                    </li> 
+                    
                     <li class="nav-item">
                         <router-link class="nav-link text-white" @click="refresh()" to="/peminjaman">Peminjaman</router-link>
-                    </li> 
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link text-white" to="/list-barang">List Barang</router-link>
+                    </li>  
                     <li class="nav-item">
                         <router-link class="nav-link text-white" to="/pengembalian">pengembalian</router-link>
                     </li>

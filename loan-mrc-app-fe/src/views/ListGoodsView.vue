@@ -4,7 +4,7 @@
 
     <main class="content py-4">
       
-    <div class="container">
+    <div class="container-history">
       <div class="row">
         <div class="col-2">
           <h3 class="my-4">List Barang</h3>
@@ -13,35 +13,34 @@
           <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="my-4 btn btn-primary"><i class="fa-solid fa-plus"></i></button>
         </div>
       </div>
-<div class="row text-capitalize">
-  
-  <div class="col-3">
-    <div class="card">
-      <div class="card-body">
-        <h4>laptop</h4>
-        <div class="row">
-          <div class="col-9">jumlah barang</div>
-          <div class="col-auto">424</div>
-        </div>
-        <div class="row">
-          <div class="col-9">barang tersedia</div>
-          <div class="col-auto">24</div>
-        </div>
-        <div class="row">
-          <div class="col-9">peminjaman</div>
-          <div class="col-auto">2</div>
-        </div>
-
-        <div class="d-flex mt-3">
-            <a href="#" class="btn btn-warning me-3">edit</a>
-            <a href="#" class="btn btn-danger me-3">hapus</a>
-        </div>
-
-      </div>
-    </div>
-  </div>   
-  
-</div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>no</th>
+                <th>Nama Barang</th>
+                <th>Barang Tersedia</th>
+                <th>Barang Terpinjam</th>
+                <th>Jumlah Stock Barang</th>
+                <th>hapus/ubah</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>laptop</td>
+                <td>24</td>
+                <td>10</td>
+                <td>34</td>
+                <td>
+                  <div class="d-flex">
+                    <button class="btn btn-outline-danger me-3"><i class="bi bi-trash3-fill"></i></button>
+                    <button class="btn btn-outline-warning me-3"><i class="bi bi-pencil-square"></i></button>
+                  </div>
+                </td>
+            </tr>
+            
+            </tbody>
+        </table>
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -94,16 +93,17 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export default {
-  name: 'HomeView',
+  name: 'ListGoodsView',
   components: {
     NavbarComponent
   },
   data() {
     return {
-        'success_create': false,
-        'goods_name': null,
-        'stock': null,
-        'goods_category_id': null
+        success_create: false,
+        goods_name: null,
+        stock: null,
+        goods_category_id: null,
+
     }
   },
   methods: {

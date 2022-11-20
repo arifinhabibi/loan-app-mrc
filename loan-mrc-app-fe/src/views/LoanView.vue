@@ -7,37 +7,40 @@
                     <div class="card-body">
                         <form>
                             <div class="row mb-3">
-                                <div class="col-7">
+                                <div class="col-8">
                                     <h4>peminjaman</h4>
                                 </div>
-                                <div class="col">tgl: {{ date_now.toLocaleDateString() }}</div>
+                                <div class="col-auto">tgl: {{ date_now.toLocaleDateString() }}</div>
                             </div>
-                            <div class="goods-choosen mb-3">
+                            <div class="borrower-name mb-3">
+                                <b>atas nama:</b> <span style="margin-left: 10px;">{{ borrower == null ? 'scan id card dahulu' : borrower }}</span>
+                            </div>
+                            <div class="goods-choosen mb-2">
                                 <div class="row">
                                     <div class="col-3"><b>barang:</b></div>
                                         <!-- list goods choosen -->
                                     </div>
                                 </div>
                                 <ul>
-                                    <li v-for="(item, index) in orderGoodsName" :key="item">
+                                    <li style="list-style-type: circle;" v-for="(item, index) in orderGoodsName" :key="item">
                                         <div class="d-flex align-items-baseline mb-2">
-                                            <div class="goods me-2">{{ item }}:</div> <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek"><div class="close-button" @click="deleteOrder(item, index)">x</div>
+                                            <div class="goods me-2">{{ item }}:</div> <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek"><div class="close-button" @click="deleteOrder(item, index)"><i class="fa-solid fa-trash"></i></div>
                                         </div>
                                     </li>
                                 </ul>
                                 
-                            <div class="borrower-name mb-3 mt-3">
-                                <b>atas nama:</b> <span style="margin-left: 10px;">{{ borrower == null ? 'scan id card dahulu' : borrower }}</span>
-                            </div>
-                            <div class="necessity mb-3">
+                            
+                            <div class="necessity mb-3  mt-3">
                                 <label for="necessity"><b>keperluan: </b></label>
-                                <textarea name="" class="form-control mt-2" v-model="necessity" id="necessity" cols="30" rows="2" placeholder="isi disini"></textarea>
+                                <textarea name="" class="form-control mt-2" v-model="necessity" id="necessity" cols="30" rows="4" placeholder="isi disini"></textarea>
                             </div>
                             <div class="loan-duration mb-3">
                                 <label for="duration"><b>durasi peminjaman: </b></label>
                                 <input type="date" v-model="loan_duration" id="duration" class="form-control mt-2">
                             </div>
-                            <div class="btn btn-primary" @click="orderConfirm()">oke</div>
+                            <div class="d-flex justify-content-end">
+                                <div class="btn btn-primary" @click="orderConfirm()">selesai</div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -98,6 +101,8 @@ import Swal from 'sweetalert2'
                             icon: 'success',
                             title: 'Data Berhasil Ditemukan',
                             text: response.data.borrower.name,
+                            showConfirmButton: false,
+                            timer: 3000
                         })
                         this.borrower = response.data.borrower.name
                         this.goods = response.data.goods
@@ -105,8 +110,8 @@ import Swal from 'sweetalert2'
                 ).catch(
                     error => {
                         Swal.fire({
-                            icon: 'error',
-                            title: 'error',
+                            icon: 'info',
+                            title: 'peringatan',
                             text: error.response.data.message,
                             showConfirmButton: false
                         })
@@ -208,15 +213,15 @@ import Swal from 'sweetalert2'
                     )
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'error',
+                        icon: 'info',
+                        title: 'peringatan',
                         text: 'silahkan scan id card terlebih dahulu',
-                        timer: 2000,
+                        timer: 3000,
                         showConfirmButton: false
                     })
                     setTimeout(() => {
                         location.reload()
-                    }, 2000)
+                    }, 3000)
                 }
                 
                 

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import ListGoodsView from '../views/ListGoodsView.vue'
 import LoginView from '../views/LoginView.vue'
 import NotFound404View from '../views/NotFound404View.vue'
 import HistoryView from '../views/HistoryView.vue'
@@ -13,9 +13,9 @@ const routes = [
     component: NotFound404View
   },
   {
-    path: '/beranda',
-    name: 'home',
-    component: HomeView
+    path: '/list-barang',
+    name: 'listBarang',
+    component: ListGoodsView
   },
   {
     path: '/',

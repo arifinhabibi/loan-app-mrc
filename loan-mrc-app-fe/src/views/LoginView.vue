@@ -48,7 +48,10 @@ import Swal from 'sweetalert2'
                     response => {
                         localStorage.setItem('username', response.data.user.username)
                         localStorage.setItem('token', response.data.user.token)
-                        this.$router.push('/beranda')
+                        this.$router.push('/peminjaman')
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500)
                         Swal.fire({
                             title: 'Success',
                             text: response.data.message,
@@ -73,8 +76,9 @@ import Swal from 'sweetalert2'
         mounted() {
             const token = localStorage.getItem('token')
 
+
             if(token != null){
-                this.$router.push('/beranda')
+                this.$router.push('/peminjaman')
             }
         },
     }

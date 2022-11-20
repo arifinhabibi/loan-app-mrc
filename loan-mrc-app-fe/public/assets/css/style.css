@@ -8,16 +8,17 @@ body {
 }
  
 .main-content {
-    margin-left: 40px;
+    margin-right: 40px;
 }
 .sidebar {
+    margin-left: 40px;
     margin-right: 40px;
     text-transform: capitalize;
     height: auto;
-    width: 400px;
+    width: 450px;
     background-color: #fff;
     border-radius: 20px;
-    float: right;
+    float: left;
     position: sticky;
     top: 20px;
     margin-bottom: 40px;
@@ -49,9 +50,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 15px;
     width: 20px;
     height: 20px;
+    font-size: 15px;
     color: #fff;
     border-radius: 100%;
     user-select: none;
@@ -59,19 +61,20 @@ body {
 }
 .message-not-borrower {
     width: 500px;
-    background-color: #f2f260;
+    background-color: #fff;
     user-select: none;
     border-radius: 20px;
     height: 200px;
     position: absolute;
     margin: auto;
     top: 0;
-    left: 17%;
+    right: 17%;
     bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(83, 83, 83);
+    border: 3px solid #FFC107;
+    color: #FFC107;
     font-size: 20px;
     font-weight: 700;
 }
@@ -104,4 +107,9 @@ body {
 .heading-custom {
     font-size: 24px;
     font-weight: 600;
+}
+
+.container-history {
+    margin-left: 40px;
+    margin-right: 40px;
 }
