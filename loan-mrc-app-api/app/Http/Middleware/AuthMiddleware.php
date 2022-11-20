@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthMiddleware
@@ -20,7 +21,7 @@ class AuthMiddleware
 
         if (!$request->token || !$user) { 
             return response()->json([
-                'message' => 'Invalid token'
+                'message' => 'Unauthorized user'
             ], 401);
         }
 

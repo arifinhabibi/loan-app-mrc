@@ -16,13 +16,10 @@ return new class extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->string('borrower');
-            $table->integer('quantity');
             $table->string('necessity');
             $table->date('loan_date');
             $table->date('loan_duration');
-            $table->string('goods_return')->default('belum');
-            $table->date('return_date')->nullable();
-            $table->string('receiver')->nullable();
+            
         });
     }
 

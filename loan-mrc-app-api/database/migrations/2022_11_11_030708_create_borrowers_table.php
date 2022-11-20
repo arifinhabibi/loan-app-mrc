@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('borrowers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('uid_code')->nullable();
+            $table->string('id_card')->nullable();
         });
     }
 
