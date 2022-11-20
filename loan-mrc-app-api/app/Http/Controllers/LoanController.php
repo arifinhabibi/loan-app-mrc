@@ -61,5 +61,9 @@ class LoanController extends Controller
                 'goods_type' => $goods_loan[1]
             ]);
         }
+
+        return response()->json([
+            'message' => 'peminjaman barang berhasil'
+        ], 200);
     }
 }

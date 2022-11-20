@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('loan_id');
             $table->string('goods_name');
-            $table->string('goods_type');
+            $table->string('goods_type')->nullable();
             $table->string('return_goods')->default('belum');
             $table->date('return_date')->nullable();
             $table->string('receiver')->nullable();
             
             
-            $table->foreign('loan_id')->references('id')->on('loans');
+            $table->foreign('loan_id')->references('id')->on('loans')->onDelete('cascade');
         });
     }
 

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\Borrower;
 use App\Models\GoodsCategory;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,11 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        Borrower::create([
+            'name' => 'Muhammad Arifin Habibi',
+            'id_card' => '1319178859'
+        ]);
 
         User::create([
             'username' => 'admin',
