@@ -1,25 +1,25 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg bg-light">
+        <nav class="navbar navbar-expand-lg" style="background-color: rgb(77, 131, 207);">
             <div class="container">
-                <router-link class="navbar-brand text-dark" to="/beranda">Loan App</router-link>
+                <router-link class="navbar-brand text-white" to="/beranda">Loan App</router-link>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <router-link class="nav-link text-dark" to="/beranda">Beranda</router-link>
+                        <router-link class="nav-link text-white" to="/beranda">Beranda</router-link>
                     </li> 
                     <li class="nav-item">
-                        <router-link class="nav-link text-dark" to="/peminjaman">Peminjaman</router-link>
+                        <router-link class="nav-link text-white" @click="refresh()" to="/peminjaman">Peminjaman</router-link>
                     </li> 
                     <li class="nav-item">
-                        <router-link class="nav-link text-dark" to="/pengembalian">pengembalian</router-link>
+                        <router-link class="nav-link text-white" to="/pengembalian">pengembalian</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link text-dark" to="/riwayat-peminjaman">Riwayat Peminjaman</router-link>
+                        <router-link class="nav-link text-white" to="/riwayat-peminjaman">Riwayat Peminjaman</router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ username }}
                         </a>
@@ -72,6 +72,11 @@ import Swal from 'sweetalert2'
                         })
                     }
                 )
+            },
+            refresh(){
+                setTimeout(() => {
+                    location.reload()
+                }, 100)
             }
         },
     }
