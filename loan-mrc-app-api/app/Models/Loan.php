@@ -11,4 +11,8 @@ class Loan extends Model
 
     protected $guarded = [];
     public $timestamps = false;
+
+    public function goodsLoans(){
+        return $this->hasMany(GoodsLoan::class);
+    }
 }

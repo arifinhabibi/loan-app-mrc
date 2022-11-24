@@ -41,11 +41,13 @@ class AuthController extends Controller
             ], 401);
         }
 
+        
         Auth::user()->update([
             'tokens' => bcrypt('login')
         ]);
-
+        
         Auth::user()->token = Auth::user()->tokens;
+        
 
         return response()->json([
             'message' => 'login success',

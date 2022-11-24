@@ -15,6 +15,10 @@ class Goods extends Model
 
 
     public function category(){
-        return $this->belongsTo(GoodsCategory);
+        return $this->belongsTo(GoodsCategory::class);
+    }
+
+    public function goodsLoans(){
+        return $this->hasMany(GoodsLoan::class);
     }
 }

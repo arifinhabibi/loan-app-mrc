@@ -54,16 +54,47 @@ class LoanController extends Controller
         ]);
 
         foreach ($request->goods_loans as $goods_loan) {
-            # code...
+            $goods = Goods::where('id', $goods_loan[0])->first();
+
+            if ($goods_loan[3] > $goods->stock) {
+                # code...
+                $goods_loan[3] = $goods->stock;
+            }
             GoodsLoan::create([
                 'loan_id' => $loan->id,
-                'goods_name' => $goods_loan[0],
-                'goods_type' => $goods_loan[1]
+                'goods_id' => $goods_loan[0],
+                'goods_name' => $goods_loan[1],
+                'goods_type' => $goods_loan[2],
+                'quantity' => $goods_loan[3]
+            ]);
+
+            
+            $goods->update([
+                'stock' => $goods->stock - $goods_loan[3]
             ]);
         }
 
         return response()->json([
             'message' => 'peminjaman barang berhasil'
+        ], 200);
+    }
+
+    // history
+    public function history(){
+        $month_year = date('F Y');
+
+        $loans = Loan::with(['goodsLoans'])->get();
+
+        foreach ($loans as $loan) {
+            # code...
+            $loan->loan_date = date("d F Y", strtotime($loan->loan_date));  
+        }
+
+
+
+        return response()->json([
+            'bulan' => $month_year,
+            'loans' => $loans
         ], 200);
     }
 }

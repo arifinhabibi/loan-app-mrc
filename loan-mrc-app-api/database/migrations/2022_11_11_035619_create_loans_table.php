@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('necessity');
             $table->date('loan_date');
             $table->date('loan_duration');
+            $table->string('return_goods')->default('belum');
+            $table->date('return_date')->nullable();
+            $table->string('receiver')->nullable();
             
         });
     }

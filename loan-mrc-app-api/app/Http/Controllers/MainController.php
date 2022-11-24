@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Loan;
 use App\Models\Goods;
+use App\Models\GoodsLoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,6 +41,44 @@ class MainController extends Controller
 
         return response()->json([
             'message' => 'barang berhasil ditambahkan'
+        ], 200);
+    }
+
+    // delete goods 
+    public function deleteGoods($id){
+        $goods = Goods::find($id);
+
+        $goods->delete();
+
+        return response()->json([
+            'message' => 'berhasil mengahapus sebuah data'
+        ], 200);
+    }
+
+
+    // list goods
+    public function listGoods(Request $request){
+        $goods = Goods::with(['goodsLoans'])->get();
+
+        return response()->json([
+            'goods' => $goods
+        ], 200);
+    }
+
+
+    public function dataLoans(Request $request){
+        $loans = Loan::where('return_goods', 'belum')->with(['goodsLoans'])->get();
+
+        foreach ($loans as $loan) {
+            # code...
+            $date_diff = date_diff(date_create($loan->loan_date), date_create($loan->loan_duration) );  
+            $loan->loan_duration = $date_diff->format("%r%a hari");
+            $loan->loan_date = date("d F Y", strtotime($loan->loan_date));  
+
+        }
+
+        return response()->json([
+            'loans' => $loans
         ], 200);
     }
 }
