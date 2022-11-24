@@ -9,11 +9,11 @@
                         <router-link class="nav-link text-white" @click="refresh()" to="/peminjaman">Peminjaman</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link text-white" to="/list-barang">List Barang</router-link>
-                    </li>  
-                    <li class="nav-item">
-                        <router-link class="nav-link text-white" to="/pengembalian">pengembalian</router-link>
+                        <router-link class="nav-link text-white" to="/pengembalian">Pengembalian</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link text-white" to="/list-barang">List Barang</router-link>
+                    </li> 
                     <li class="nav-item">
                         <router-link class="nav-link text-white" to="/riwayat-peminjaman">Riwayat Peminjaman</router-link>
                     </li>

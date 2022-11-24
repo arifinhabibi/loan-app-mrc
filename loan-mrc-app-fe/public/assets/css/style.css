@@ -30,7 +30,7 @@ body {
     border: 2px solid rgb(188, 184, 184);
     padding: 20px;
     width: 250px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border-radius: 10px;
     text-align: left;
     transition-duration: 0.1s;
@@ -68,7 +68,8 @@ body {
     position: absolute;
     margin: auto;
     top: 0;
-    right: 17%;
+    right: 0;
+    left: 0;
     bottom: 0;
     display: flex;
     justify-content: center;

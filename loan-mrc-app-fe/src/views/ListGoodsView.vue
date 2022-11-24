@@ -20,20 +20,20 @@
                 <th>Nama Barang</th>
                 <th>Barang Tersedia</th>
                 <th>Barang Terpinjam</th>
-                <th>Jumlah Stock Barang</th>
                 <th>hapus/ubah</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>laptop</td>
-                <td>24</td>
-                <td>10</td>
-                <td>34</td>
+            <tr v-for="(item, index) in all_goods" :key="item.id">
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.goods_name }}</td>
+                <td>{{ item.stock }}</td>
+                <td>
+                  
+                </td>
                 <td>
                   <div class="d-flex">
-                    <button class="btn btn-outline-danger me-3"><i class="bi bi-trash3-fill"></i></button>
+                    <button class="btn btn-outline-danger me-3" @click="deleteGoods(item.id)"><i class="bi bi-trash3-fill"></i></button>
                     <button class="btn btn-outline-warning me-3"><i class="bi bi-pencil-square"></i></button>
                   </div>
                 </td>
@@ -103,7 +103,7 @@ export default {
         goods_name: null,
         stock: null,
         goods_category_id: null,
-
+        all_goods: []
     }
   },
   methods: {
@@ -139,6 +139,35 @@ export default {
           })
         }
       )
+    },
+    listGoods(token){
+      axios.get(`http://127.0.0.1:8000/api/list-goods?token=${token}`).then(
+        response => {
+          console.log(response)
+          this.all_goods = response.data.goods
+        }
+      ).catch(
+        error => {
+          console.log(error)
+        }
+      )
+    },
+    deleteGoods(id){
+      axios.get(`http://127.0.0.1:8000/api/delete-goods/${id}?token=${localStorage.getItem('token')}`).then(
+        response => {
+          Swal.fire({
+            icon: 'success',
+            title: response.data.message,
+            timer: 1000,
+            showConfirmButton: false
+          })
+
+          setTimeout(() => {
+            location.reload()
+          }, 1000)
+        }
+      )
+
     }
   },
   mounted() {
@@ -147,6 +176,8 @@ export default {
 
     if (token == null) {
       this.$router.push('/')
+    } else {
+      this.listGoods(token)
     }
   },
 }
