@@ -31,8 +31,6 @@ class MainController extends Controller
             ], 401);
         }
 
-
-
         Goods::create([
             'goods_name' => $request->goods_name,
             'stock' => $request->stock,
@@ -58,10 +56,26 @@ class MainController extends Controller
 
     // list goods
     public function listGoods(Request $request){
-        $goods = Goods::with(['goodsLoans'])->get();
+        $allGoods = Goods::all();
+
+        foreach ($allGoods as $goods) {
+            # code...
+            $goodsLoans = GoodsLoan::where('goods_id', $goods->id)->get();
+
+            foreach ($goodsLoans as $goodsLoan) {
+                # code...
+                $loan = Loan::where('id', $goodsLoan->loan_id)->first();
+                if ($loan->return_goods == 'belum') {
+                # code...
+                    $goods->loan = $goods->loan += $goodsLoan->quantity;
+                }
+            }
+        }
+
+
 
         return response()->json([
-            'goods' => $goods
+            'goods' => $allGoods
         ], 200);
     }
 
