@@ -22,7 +22,7 @@
                   <td>
                     <div  class="d-flex">
                         <div v-for="(goodsLoan, index) in item.goods_loans" :key="goodsLoan">
-                            {{ goodsLoan.goods_name }} ({{ goodsLoan.quantity }}){{ index > 0 ? '.' : ', '  }}
+                            {{ goodsLoan.goods_name }} ({{ goodsLoan.quantity }}){{ index + 1 == item.goods_loans.length ? '.' : ','  }}
                         </div>
                     </div>
                   </td>

@@ -69,7 +69,9 @@ import Swal from 'sweetalert2'
                         Swal.fire({
                             icon: 'error',
                             title: 'Failed',
-                            text: error.response.data.message
+                            text: error.response.data.message,
+                            showConfirmButton: false,
+                            timer: 3000
                         })
                     }
                 )

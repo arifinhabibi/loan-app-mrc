@@ -67,7 +67,6 @@ import Swal from 'sweetalert2';
         returnGoods(id){
             axios.get(`http://127.0.0.1:8000/api/return-goods/${id}?token=${localStorage.getItem('token')}`).then(
                 response => {
-                    console.log(response)
                     Swal.fire({
                         icon: 'success',
                         title: 'success',
@@ -76,7 +75,10 @@ import Swal from 'sweetalert2';
                         showConfirmButton: false
                     })
 
-                    location.reload()
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000);
+
                 }
             ).catch(
                 error => {
@@ -94,7 +96,6 @@ import Swal from 'sweetalert2';
         loans(token){
             axios.get(`http://127.0.0.1:8000/api/data-loans?token=${token}`).then(
                 response => {
-                    console.log(response)
                     this.data_loans = response.data.loans
                 }
             ).catch(

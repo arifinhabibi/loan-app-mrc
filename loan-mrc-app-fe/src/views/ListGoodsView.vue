@@ -20,6 +20,7 @@
                 <th>Nama Barang</th>
                 <th>Barang Tersedia</th>
                 <th>Barang Terpinjam</th>
+                <th>Jumlah Barang</th>
                 <th>hapus/ubah</th>
             </tr>
             </thead>
@@ -28,9 +29,8 @@
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.goods_name }}</td>
                 <td>{{ item.stock }}</td>
-                <td>
-                  
-                </td>
+                <td>{{ item.loan != null ? item.loan : '-' }}</td>
+                <td>{{ item.loan != null ? parseInt(item.loan)  + parseInt(item.stock) : item.stock }}</td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-outline-danger me-3" @click="deleteGoods(item.id)"><i class="bi bi-trash3-fill"></i></button>
@@ -161,7 +161,6 @@ export default {
             timer: 1000,
             showConfirmButton: false
           })
-
           setTimeout(() => {
             location.reload()
           }, 1000)
@@ -172,7 +171,6 @@ export default {
   },
   mounted() {
     const token = localStorage.getItem('token')
-
 
     if (token == null) {
       this.$router.push('/')

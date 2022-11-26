@@ -17,14 +17,22 @@
                             </div>
                             <div class="goods-choosen mb-2">
                                 <div class="row">
-                                    <div class="col-3"><b>barang:</b></div>
+                                    <div class="col-2"><b>barang:</b></div>
                                         <!-- list goods choosen -->
+                                        
                                     </div>
                                 </div>
+
+                                <div class="bg-warning text-center p-3" v-if="orderGoodsName.length == 0">
+                                    silahkan pilih barang di sisi sebelah kanan
+                                </div>
+                                
                                 <ul>
                                     <li style="list-style-type: circle;" v-for="(item, index) in orderGoodsName" :key="item">
-                                        <div class="d-flex align-items-baseline mb-2">
-                                            <div class="goods me-2">{{ item }}:</div>
+                                        <div class="row mb-2">
+                                            <div class="goods">{{ item }}:</div>
+                                        </div>
+                                        <div class="d-flex align-items-baseline mb-3">
                                             <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek">
                                             <input type="number" v-on:change="quantityGoods(item, index)" :value="null" class="form-control me-2 quantity" placeholder="jumlah" required>
                                             <div class="close-button" @click="deleteOrder(item, index)"><i class="fa-solid fa-trash"></i></div>
@@ -167,19 +175,24 @@ import Swal from 'sweetalert2'
                 
             },
             quantityGoods(item, index){
+                
+                this.goods.forEach((goods, index2) => {
+                    if (goods.goods_name == item) {
+                        this.goods[index2].stock = parseInt(this.goods[index2].stock) + parseInt(this.quantity[index])
+                    }
+                })
+                    
                 let quantity = document.querySelectorAll('.quantity')
 
                 this.quantity.splice(index, 1)
                 this.quantity.splice(index, 0, parseInt(quantity[index].value))
+                
 
                 this.goods.forEach((goods, index2) => {
                     if (goods.goods_name == item) {
                         this.goods[index2].stock = this.goods[index2].stock - parseInt(quantity[index].value)
                     }
                 })
-
-                quantity[index].disabled = true
-
             },
             orderConfirm(){
                 if (this.borrower != null) {
