@@ -4,56 +4,59 @@
 
         <main class="content py-4">
                 <div class="sidebar" v-if="borrower != null">
-                    <div class="card-body">
-                        <form @submit.prevent="orderConfirm()">
-                            <div class="row mb-3">
-                                <div class="col-8">
-                                    <h4>peminjaman</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <form @submit.prevent="orderConfirm()">
+                                <div class="row mb-3">
+                                    <div class="col-8">
+                                        <h4>peminjaman</h4>
+                                    </div>
+                                    <div class="col-auto">tgl: {{ date_now.toLocaleDateString() }}</div>
                                 </div>
-                                <div class="col-auto">tgl: {{ date_now.toLocaleDateString() }}</div>
-                            </div>
-                            <div class="borrower-name mb-3">
-                                <b>nama:</b> <span style="margin-left: 10px;">{{ borrower == null ? 'scan id card dahulu' : borrower }}</span>
-                            </div>
-                            <div class="goods-choosen mb-2">
-                                <div class="row">
-                                    <div class="col-2"><b>barang:</b></div>
-                                        <!-- list goods choosen -->
+                                <div class="borrower-name mb-3">
+                                    <b>nama:</b> <span style="margin-left: 10px;">{{ borrower }}</span>
+                                </div>
+                                <div class="goods-choosen mb-2">
+                                    <div class="row">
+                                        <div class="col-4"><b>barang:</b></div>
                                         
                                     </div>
                                 </div>
-
+                                
                                 <div class="bg-warning text-center p-3" v-if="orderGoodsName.length == 0">
-                                    silahkan pilih barang di sisi sebelah kanan
+                                        silahkan pilih barang di sisi sebelah kanan
+                                    </div>
+                                    
+                                    <ul>
+                                        <!-- list goods choosen -->
+                                        <li style="list-style-type: circle;" v-for="(item, index) in orderGoodsName" :key="item">
+                                            <div class="row mb-2">
+                                                <div class="goods">{{ item }}:</div>
+                                            </div>
+                                            <div class="d-flex align-items-baseline mb-3">
+                                                <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek">
+                                                <input type="number" min="1" max="30" v-on:change="quantityGoods(item, index)" :value="null" class="form-control me-2 quantity" placeholder="jumlah" required>
+                                                <div class="close-button" @click="deleteOrder(item, index)"><i class="fa-solid fa-trash"></i></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    
+                                
+                                <div class="necessity mb-3  mt-3">
+                                    <label for="necessity"><b>keperluan: </b></label>
+                                    <textarea name="" class="form-control mt-2" v-model="necessity" id="necessity" cols="30" rows="4" placeholder="isi disini"></textarea>
                                 </div>
-                                
-                                <ul>
-                                    <li style="list-style-type: circle;" v-for="(item, index) in orderGoodsName" :key="item">
-                                        <div class="row mb-2">
-                                            <div class="goods">{{ item }}:</div>
-                                        </div>
-                                        <div class="d-flex align-items-baseline mb-3">
-                                            <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek">
-                                            <input type="number" v-on:change="quantityGoods(item, index)" :value="null" class="form-control me-2 quantity" placeholder="jumlah" required>
-                                            <div class="close-button" @click="deleteOrder(item, index)"><i class="fa-solid fa-trash"></i></div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                
-                            
-                            <div class="necessity mb-3  mt-3">
-                                <label for="necessity"><b>keperluan: </b></label>
-                                <textarea name="" class="form-control mt-2" v-model="necessity" id="necessity" cols="30" rows="4" placeholder="isi disini"></textarea>
-                            </div>
-                            <div class="loan-duration mb-3">
-                                <label for="duration"><b>durasi peminjaman: </b></label>
-                                <input type="date" v-model="loan_duration" id="duration" class="form-control mt-2">
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary" type="submit">selesai</button>
-                            </div>
-                        </form>
+                                <div class="loan-duration mb-3">
+                                    <label for="duration"><b>durasi peminjaman: </b></label>
+                                    <input type="date" v-model="loan_duration" id="duration" class="form-control mt-2">
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-primary" type="submit">selesai</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+                <FooterComponent />
                 </div>
                 <div class="main-content">
                     <div class="message-not-borrower" v-if="borrower == null">
@@ -64,26 +67,29 @@
                     <div class="row" v-if="borrower != null">
                             <h3 style="margin-bottom: 20px;">List barang</h3>
                             <div class="col-4" v-for="(item) in goods" :key="item.id">
-                                <button class="box" @click="orderGoods(item.goods_name, item.id)" >
-                                        <!-- bi-laptop -->
-                                            <div class="goods-category-icon">
-                                                <i class="bi " :class="{ 'bi-laptop': item.goods_category_id == 1, 'bi-tools': item.goods_category_id == 2, 'bi-tablet': item.goods_category_id == 4, 'bi-projector': item.goods_category_id == 3 }"></i>
-                                            </div>
-                                            <div class="menu">
-                                                <h6>{{ item.goods_name }}</h6>
-                                                <p>Tersedia ({{ item.stock }})</p>
-                                            </div>
-                                    </button>
+                                <button class="box" @click="orderGoods(item.goods_name, item.id)">
+                                    <!-- bi-laptop -->
+                                    <div class="goods-category-icon">
+                                        <i class="bi "
+                                            :class="{ 'bi-laptop': item.goods_category_id == 1, 'bi-tools': item.goods_category_id == 2, 'bi-tablet': item.goods_category_id == 4, 'bi-projector': item.goods_category_id == 3 }"></i>
+                                    </div>
+                                    <div class="menu">
+                                        <h6>{{ item.goods_name }}</h6>
+                                        <p>Tersedia ({{ item.stock }})</p>
+                                    </div>
+                                </button>
                             </div> 
                           
                         </div>
                     </div>
-            </main>
-        </div>
+                </main>
+                
+            </div>
 </template>
 
 <script>
     import NavbarComponent from '@/components/NavbarComponent.vue'
+    import FooterComponent from '@/components/FooterComponent.vue'
     import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -96,7 +102,7 @@ import Swal from 'sweetalert2'
                 borrower: null,
                 goods: [],
                 goods_id: [],
-                orderType: [],
+                typeIndex: [],
                 type: [],
                 quantity: [],
                 goods_choosen: [],
@@ -143,9 +149,9 @@ import Swal from 'sweetalert2'
                 this.type = []
                 setTimeout(() => {
                     let typeGoods = document.querySelectorAll('.typeGoods')
-                    this.orderType.push(typeGoods.length - 1)  
-                    this.orderType.forEach((item, indexOrder) => {
-                        this.type.push(typeGoods[indexOrder].value)
+                    this.typeIndex.push(typeGoods.length - 1)  
+                    this.typeIndex.forEach((item, index) => {
+                        this.type.push(typeGoods[index].value)
                     })
 
                 }, 1);
@@ -164,12 +170,12 @@ import Swal from 'sweetalert2'
                     index++
                 })
                 this.quantity.splice(indexOrder, 1)
-                this.orderType.pop()
+                this.typeIndex.pop()
             },
             typeGoods(){
                 let typeGoods = document.querySelectorAll('.typeGoods')
                 this.type = []
-                this.orderType.forEach((item, indexOrder) => {
+                this.typeIndex.forEach((item, indexOrder) => {
                     this.type.push(typeGoods[indexOrder].value)
                 })
                 
@@ -262,7 +268,8 @@ import Swal from 'sweetalert2'
             }
         },
         components: {
-            NavbarComponent
+            NavbarComponent,
+            FooterComponent,
         },
         mounted() {
             const token = localStorage.getItem('token')

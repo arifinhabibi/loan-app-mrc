@@ -57,11 +57,11 @@
             <input type="text" v-model="goods_name" class="form-control" id="barang">
           </div>
           <div class="col-md-4">
-            <label for="stock" class="form-label">jumlah barang</label>
+            <label for="stock" class="form-label">Jumlah Barang</label>
             <input type="number" v-model="stock" class="form-control" id="stock">
           </div>
           <div class="col-12">
-            <label for="category" class="form-label">kategori</label>
+            <label for="category" class="form-label">Kategori</label>
             <select v-model="goods_category_id" class="form-control" id="category">
               <option value="null">pilih</option>
               <option value="1">notebook dan netbook</option>
