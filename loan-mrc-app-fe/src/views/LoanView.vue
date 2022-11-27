@@ -34,7 +34,7 @@
                                                 <div class="goods">{{ item }}:</div>
                                             </div>
                                             <div class="d-flex align-items-baseline mb-3">
-                                                <input type="text" v-on:change="typeGoods()" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek">
+                                                <input type="text" v-on:change="typeGoods(index)" :value="null" class="form-control me-2 typeGoods" placeholder="no/type/merek">
                                                 <input type="number" min="1" max="30" v-on:change="quantityGoods(item, index)" :value="null" class="form-control me-2 quantity" placeholder="jumlah" required>
                                                 <div class="close-button" @click="deleteOrder(item, index)"><i class="fa-solid fa-trash"></i></div>
                                             </div>
@@ -102,7 +102,6 @@ import Swal from 'sweetalert2'
                 borrower: null,
                 goods: [],
                 goods_id: [],
-                typeIndex: [],
                 type: [],
                 quantity: [],
                 goods_choosen: [],
@@ -142,20 +141,9 @@ import Swal from 'sweetalert2'
             },
             orderGoods(goods_name, id){
                 this.orderGoodsName.push(goods_name)
-
                 this.goods_id.push(id)
                 this.quantity.push(0)
-
-                this.type = []
-                setTimeout(() => {
-                    let typeGoods = document.querySelectorAll('.typeGoods')
-                    this.typeIndex.push(typeGoods.length - 1)  
-                    this.typeIndex.forEach((item, index) => {
-                        this.type.push(typeGoods[index].value)
-                    })
-
-                }, 1);
-
+                this.type.push("")
             },
             deleteOrder(item, indexOrder){
                 this.goods_id.splice(indexOrder, 1)
@@ -169,16 +157,13 @@ import Swal from 'sweetalert2'
                     }
                     index++
                 })
+
                 this.quantity.splice(indexOrder, 1)
-                this.typeIndex.pop()
             },
-            typeGoods(){
+            typeGoods(index){
                 let typeGoods = document.querySelectorAll('.typeGoods')
-                this.type = []
-                this.typeIndex.forEach((item, indexOrder) => {
-                    this.type.push(typeGoods[indexOrder].value)
-                })
-                
+                this.type.splice(index, 1)
+                this.type.splice(index, 0, typeGoods[index].value)
             },
             quantityGoods(item, index){
                 
