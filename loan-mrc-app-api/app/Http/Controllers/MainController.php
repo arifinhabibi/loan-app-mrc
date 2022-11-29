@@ -86,7 +86,7 @@ class MainController extends Controller
         foreach ($loans as $loan) {
             # code...
             $date_diff = date_diff(date_create($loan->loan_date), date_create($loan->loan_duration) );  
-            $loan->loan_duration = $date_diff->format("%r%a hari");
+            $loan->loan_duration = $date_diff->format('%a' == '0' ? '1' : '%a' . " hari");
             $loan->loan_date = date("d F Y", strtotime($loan->loan_date));  
 
         }
